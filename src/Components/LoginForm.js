@@ -8,7 +8,6 @@ import { SocialIcon } from "react-social-icons";
 function LoginForm(props) {
   
   const {buttonText} = props;
- 
 
   const StyledHeading = styled.h2`
     text-align: center;
