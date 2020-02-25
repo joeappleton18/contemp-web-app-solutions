@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
@@ -50,7 +50,7 @@ function LoginForm(props) {
           </p>
           <Button  text={buttonText} />  
         </form>
-      )}
+      
     </React.Fragment>
   );
 }
