@@ -1,7 +1,6 @@
 import React from "react";
 import Tile from "../Components/Tile";
 import styled from "styled-components";
-import Label from "../Components/Label";
 import drinkIcon from "../assets/drink-icon.svg";
 import foodIcon from "../assets/food-icon.svg";
 import Button from "../Components/Button";
@@ -20,7 +19,7 @@ const StyledHeading = styled.h4`
   color: ${({ theme }) => theme.colors.purple};
 `;
 
-const StyledLabel = styled(Label)`
+const StyledLabel = styled.label`
   text-align: left;
   margin-top: 5%;
 `;

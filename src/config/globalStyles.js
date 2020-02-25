@@ -33,7 +33,28 @@ em {
     font-size: ${({theme}) => theme.typography.em.fontSize};
 }
 
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    height: 44px;
+    border: 1px solid ${({theme}) => theme.colors.darkShade[10]}};
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 20px;
+    margin-bottom: 2%;
+    font-size: 22px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 15px;
+    text-transform: uppercase;
+    margin-bottom: 20
+    color: #1F2041;
+}
+
 `
+
 
 export default GlobalStyles;
 

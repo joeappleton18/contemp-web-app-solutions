@@ -1,10 +1,9 @@
-  import React, { useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Input from "../Components/Input";
 import Button from "../Components/Button";
 import styled from "styled-components";
 import { SocialIcon } from "react-social-icons";
-import Label from "./Label";
+
 
 function LoginForm(props) {
   
@@ -37,16 +36,16 @@ function LoginForm(props) {
 
         <form>
           <p>
-            <Label> Email </Label>
+            <label> Email </label>
           </p>
           <p>
-            <Input />
+            <input type="text" name="email" />
           </p>
           <p>
-            <Label> Password </Label>
+            <label> Password </label>
           </p>
           <p>
-            <Input />
+            <input type="password" name="password" />
           </p>
           <Button  text={buttonText} />  
         </form>
