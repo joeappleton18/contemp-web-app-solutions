@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Tile from "./Tile";
 import styled from "styled-components";
 import avatarLarge from "../assets/avatar_large.png";
@@ -92,7 +91,7 @@ function CheckinComment(props) {
           <img
             src={avatarLarge}
             style={{ marginBottom: "-20px" }}
-            alt="avatar image"
+            alt="avatar"
           />
           <LikeButton></LikeButton>
         </StyledPhotoArea>
@@ -119,7 +118,7 @@ function CheckinComment(props) {
         <img
           src={avatarSmall}
           style={{ marginBottom: "-20px" }}
-          alt="avatar image"
+          alt="avatar"
         />
 
         <CommentArea>
@@ -135,7 +134,7 @@ function CheckinComment(props) {
         <img
           src={avatarSmall}
           style={{ marginBottom: "-20px" }}
-          alt="avatar image"
+          alt="avatar"
         />
 
         <textarea rows="4"> 
