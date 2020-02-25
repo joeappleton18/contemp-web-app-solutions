@@ -69,6 +69,18 @@ const StyledIcon = styled.img`
   margin-left: 6px;
 `;
 
+const StyledCheckinTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-size: 12px;
+    color: ${({theme}) => theme.colors.darkShade[25]};
+    margin-top: 5%;
+  }
+`;
+
+
+
 const Checkin = props => {
   return (
     <StyledTile>
@@ -128,6 +140,8 @@ const Checkin = props => {
             </StyledSelect>
           </div>
         </StyledFoodDrinkArea>
+        <StyledCheckinTitle><StyledLabel>Comments</StyledLabel> <p>145 chars</p> </StyledCheckinTitle>
+        <textarea id="w3mission" rows="4" cols="40"></textarea>
         <Button  text="CHECKIN"/>
       </StyledForm>
     </StyledTile>

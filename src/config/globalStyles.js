@@ -43,6 +43,11 @@ input[type="text"], input[type="email"], input[type="password"] {
     font-size: 22px;
 }
 
+textarea {
+    border: 1px solid ${({theme}) => theme.colors.darkShade[10]};
+    border-radius: 4px;
+}
+
 label {
     font-size: 12px;
     font-weight: bold;
