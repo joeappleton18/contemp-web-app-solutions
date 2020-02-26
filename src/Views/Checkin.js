@@ -93,7 +93,7 @@ const Checkin = props => {
   return (
     <StyledTile>
       <StyledHeading> Log Your Progress For May 18 </StyledHeading>
-      <StyledForm>
+      <StyledForm >
         <StyledLabel>Did you exercise for at least 20 mins (5) ?</StyledLabel>
         <StyledCheckinP>
           {" "}
@@ -160,8 +160,8 @@ const Checkin = props => {
         </StyledFoodDrinkArea>
         <StyledCheckinTitle><StyledLabel>Comments</StyledLabel> <p>145 chars</p> </StyledCheckinTitle>
         <textarea id="w3mission" rows="4" cols="40"></textarea>
-        <StyledHeading> Total: 15 points </StyledHeading>
-  <Button  text="CHECKIN">   <StyledPointsP> {total} </StyledPointsP>   </Button>
+        <StyledHeading> Total: {total} points </StyledHeading>
+  <Button  text="CHECKIN">    </Button>
       </StyledForm>
     </StyledTile>
   );

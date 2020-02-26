@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 function LoginForm(props) {
   
   const {buttonText} = props;
-  const [displayEmail, setDisplayEmail] = useState(false);
+  const [displayEmail, setDisplayEmail] = useState(true);
 
   console.log(useForm());
 
