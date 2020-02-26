@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import Button from "../Components/Button";
 import styled from "styled-components";
 import { SocialIcon } from "react-social-icons";
+import { useForm } from 'react-hook-form'
+
+
 
 
 function LoginForm(props) {
   
   const {buttonText} = props;
   const [displayEmail, setDisplayEmail] = useState(false);
+
+  console.log(useForm());
 
   const StyledHeading = styled.h2`
     text-align: center;
