@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Tile from "../Components/Tile";
 import styled from "styled-components";
 import drinkIcon from "../assets/drink-icon.svg";
@@ -80,13 +80,21 @@ const StyledCheckinTitle = styled.div`
 `;
 
 
+const StyledPointsP = styled.p`
+  color: ${({theme}) => theme.colors.darkGreen};
+  text-align: right;
+`
+
 
 const Checkin = props => {
+
+   const [total, setTotal] = useState(15);
+
   return (
     <StyledTile>
       <StyledHeading> Log Your Progress For May 18 </StyledHeading>
       <StyledForm>
-        <StyledLabel>Did you exercise for at least 20 mins?</StyledLabel>
+        <StyledLabel>Did you exercise for at least 20 mins (5) ?</StyledLabel>
         <StyledCheckinP>
           {" "}
           <span>
@@ -96,16 +104,26 @@ const Checkin = props => {
             <input type="radio" name="exercise" /> No{" "}
           </span>{" "}
         </StyledCheckinP>
-        <StyledLabel>Did you eat 5 portions of veg?</StyledLabel>
+        <StyledLabel>Did you eat 5 portions of veg (3)?</StyledLabel>
         <StyledCheckinP>
           <span>
-            <input type="radio" name="exercise" /> Yes
+            <input type="radio" name="veg" /> Yes
           </span>
           <span>
-            <input type="radio" name="exercise" /> No
+            <input type="radio" name="veg" /> No
           </span>
         </StyledCheckinP>
-        <StyledLabel>WAS Your Diet Perfect?</StyledLabel>
+        <StyledLabel>Did you drink 2l of water (2)?</StyledLabel>
+        <StyledCheckinP>
+          <span>
+            <input type="radio" name="water" /> Yes
+          </span>
+          <span>
+            <input type="radio" name="water" /> No
+          </span>
+        </StyledCheckinP>
+
+        <StyledLabel>Was Your Diet Perfect (10)?</StyledLabel>
         <StyledCheckinP>
           <span>
             <input type="radio" name="exercise" /> Yes
@@ -142,7 +160,8 @@ const Checkin = props => {
         </StyledFoodDrinkArea>
         <StyledCheckinTitle><StyledLabel>Comments</StyledLabel> <p>145 chars</p> </StyledCheckinTitle>
         <textarea id="w3mission" rows="4" cols="40"></textarea>
-        <Button  text="CHECKIN"/>
+        <StyledHeading> Total: 15 points </StyledHeading>
+  <Button  text="CHECKIN">   <StyledPointsP> {total} </StyledPointsP>   </Button>
       </StyledForm>
     </StyledTile>
   );
