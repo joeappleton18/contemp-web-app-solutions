@@ -8,6 +8,7 @@ import { SocialIcon } from "react-social-icons";
 function LoginForm(props) {
   
   const {buttonText} = props;
+  const [displayEmail, setDisplayEmail] = useState(false);
 
   const StyledHeading = styled.h2`
     text-align: center;
@@ -20,6 +21,13 @@ function LoginForm(props) {
     justify-content: space-around;
   `;
 
+  const handleClick = e => {
+    e.preventDefault();
+    debugger;
+    setDisplayEmail(!displayEmail);
+
+  }
+
   return (
     <React.Fragment>
       <StyledSocialIconArea>
@@ -30,10 +38,11 @@ function LoginForm(props) {
       <StyledHeading> OR </StyledHeading>
   
 
-        <Button  text="Email" />   
-     
+       {!displayEmail &&  (<Button onClick={handleClick}   text="Email" />)   } 
+       
 
-        <form>
+       {displayEmail && (
+          <form>
           <p>
             <label> Email </label>
           </p>
@@ -48,6 +57,10 @@ function LoginForm(props) {
           </p>
           <Button  text={buttonText} />  
         </form>
+       )}
+
+
+
       
     </React.Fragment>
   );
