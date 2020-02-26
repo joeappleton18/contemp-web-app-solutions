@@ -75,6 +75,7 @@ function CheckinComment(props) {
    border-radius: 15px;
    background-color: ${({ theme }) => theme.colors.grey};
    width: 95%;
+   margin-top: 2%;
    min-height: 80px;
    padding 3%;
    h6:nth-child(2) {
