@@ -7,7 +7,7 @@ import Form from "../Components/LoginForm";
 
 
 
-function Join() {
+function Login() {
 
 
   const StyledWrapper = styled.div`
@@ -42,15 +42,13 @@ function Join() {
   return (
     <StyledWrapper>
       <StyledTile>
-        <StyledHeading>Get Started</StyledHeading>
-        <StyledHeading>Join With </StyledHeading>
-        <Form />
-        <StyledLink to="/login"> Already a member - Login </StyledLink>
+  
+        <StyledHeading>Login With </StyledHeading>
+        <Form  buttonText="LOGIN"/>
+        <StyledLink to="/join"> Not a member - Join </StyledLink>
       </StyledTile>
     </StyledWrapper>
   );
 }
 
-Join.propTypes = {};
-
-export default Join;
+export default Login;

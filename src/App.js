@@ -9,6 +9,7 @@ import Dash from "./Views/Dash";
 import Join from "./Views/Join";
 import Checkin from "./Views/Checkin";
 import Profile from "./Views/Profile";
+import Login from "./Views/Login";
 
 const checkins = [
   {
@@ -90,6 +91,9 @@ function App() {
             </Route>
             <Route path="/join">
               <Join />
+            </Route>
+            <Route path="/login">
+              <Login />
             </Route>
             <Route path="/profile">
               <Profile />
