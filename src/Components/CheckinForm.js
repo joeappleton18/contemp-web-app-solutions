@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import drinkIcon from "../assets/drink-icon.svg";
 import foodIcon from "../assets/food-icon.svg";
@@ -68,39 +68,79 @@ const StyledCheckinTitle = styled.div`
   justify-content: space-between;
   p {
     font-size: 12px;
-    color: ${({ theme }) => theme.colors.darkShade[25]};
+    color: ${({ theme, error }) => error ? 'red' : theme.colors.darkShade[50]};
     margin-top: 5%;
+
   }
 `;
 
-const CheckinForm = props => {
-  const [total, setTotal] = useState(15);
-  const [displayDiet, setDisplayDiet] = useState(false);
-  const checkinFormSchema = yup.object().shape({
-    exercise: yup
-      .string()
-      .required("you must tell us if you exercised")
-      .matches(/(1|0)/, { message: "unsupported value" }),
-    veg: yup 
-      .string()
-      .required("you must tell us if ate your veg")
-      .matches(/(1|0)/, { message: "unsupported value" }),
-    water: yup 
-      .string()
-      .required("you must tell us if you drank 2l of water")
-      .matches(/(1|0)/, { message: "unsupported value" }),
-    diet: yup 
-      .string()
-      .required("you must tell us if you kept to your diet")
-      .matches(/(1|0)/, { message: "unsupported value" })  
 
-    
-      
+const CheckinForm = props => {
+
+  const maxCommentLength  = 145;
+  const [total, setTotal] = useState(0);
+  const [remainingCommentCount, setRemainingCommentCount] = useState(maxCommentLength);
+
+  const checkinFormSchema = yup.object().shape({
+    exercise: yup.string().required("you must tell us if you exercised"),
+    veg: yup.string().required("you must tell us if ate your veg"),
+    water: yup.string().required("you must tell us if you drank 2l of water"),
+    diet: yup.string().required("you must tell us if you kept to your diet")
   });
 
-  const { register, handleSubmit,  errors } = useForm({validationSchema:checkinFormSchema});
 
-  const onSubmit = data => console.log(data);
+  const { register, handleSubmit, errors, watch } = useForm({
+    validationSchema: checkinFormSchema,
+    defaultValues: {
+      exercise: "",
+      veg: "",
+      water: "",
+      diet: "",
+      comment: "",
+      drinkPenalty: "",
+      dietPenalty: ""  
+    }
+  });
+
+  
+  let checkinScore = {
+    exercise: "",
+    veg: "",
+    water: "",
+    diet: ""
+  };
+
+  const diet = watch("diet");
+  const formValues = watch();
+  const comment = watch("comment");
+
+  useEffect(() => {
+    setRemainingCommentCount( maxCommentLength - comment.length)
+  }, [comment])
+  
+
+  useEffect(() => {
+    checkinScore.exercise = !formValues.exercise
+      ? 0
+      : parseInt(formValues.exercise);
+    checkinScore.veg = !formValues.veg ? 0 : parseInt(formValues.veg);
+    checkinScore.water = !formValues.water ? 0 : parseInt(formValues.water);
+    checkinScore.diet = formValues.diet && parseInt(formValues.diet);
+    if (formValues.diet === "0") {
+        checkinScore.diet = 10 - (parseInt(formValues.dietPenalty) + parseInt(formValues.drinkPenalty))
+    }
+
+    setTotal(
+      checkinScore.exercise +
+        checkinScore.veg +
+        checkinScore.water +
+        checkinScore.diet
+    );
+  }, [formValues]);
+
+  const onSubmit = data => {
+      console.log({...data,...checkinScore, ...{total}})
+  };
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -108,73 +148,78 @@ const CheckinForm = props => {
       <StyledCheckinP>
         {" "}
         <span>
-          <input type="radio" value="1" name="exercise" ref={register} /> Yes{" "}
+          <input type="radio" value="5" name="exercise" ref={register} /> Yes{" "}
         </span>{" "}
         <span>
           <input type="radio" value="0" name="exercise" ref={register} /> No{" "}
         </span>{" "}
       </StyledCheckinP>
-      <ErrorLabel> {errors.exercise && errors.exercise.message }  </ErrorLabel>
+      <ErrorLabel> {errors.exercise && errors.exercise.message} </ErrorLabel>
       <StyledLabel>Did you eat 5 portions of veg (3)?</StyledLabel>
       <StyledCheckinP>
         <span>
-          <input type="radio" value="1" name="veg" /> Yes
+          <input type="radio" value="3" name="veg" ref={register} /> Yes
         </span>
         <span>
-          <input type="radio" value="0" name="veg" /> No
+          <input type="radio" value="0" name="veg" ref={register} /> No
         </span>
       </StyledCheckinP>
-      <ErrorLabel> {errors.veg && errors.veg.message }  </ErrorLabel>
+      <ErrorLabel> {errors.veg && errors.veg.message} </ErrorLabel>
       <StyledLabel>Did you drink 2l of water (2)?</StyledLabel>
       <StyledCheckinP>
         <span>
-          <input type="radio" value="1" name="water" /> Yes
+          <input type="radio" value="2" name="water" ref={register} /> Yes
         </span>
         <span>
-          <input type="radio" value="0" name="water" /> No
+          <input type="radio" value="0" name="water" ref={register} /> No
         </span>
       </StyledCheckinP>
-      <ErrorLabel> {errors.water && errors.water.message }  </ErrorLabel>
+      <ErrorLabel> {errors.water && errors.water.message} </ErrorLabel>
 
       <StyledLabel>Was Your Diet Perfect (10)?</StyledLabel>
       <StyledCheckinP>
         <span>
-          <input type="radio" value="1" name="diet" /> Yes
+          <input type="radio" value="10" name="diet" ref={register} /> Yes
         </span>
         <span>
-          <input type="radio" value="0" name="diet" /> No
+          <input type="radio" value="0" name="diet" ref={register} /> No
         </span>
       </StyledCheckinP>
+      <ErrorLabel> {errors.diet && errors.diet.message} </ErrorLabel>
 
-      <StyledFoodDrinkArea>
-        <StyledLabel>Drinks</StyledLabel>
-        <StyledLabel>Food</StyledLabel>
-        <div>
-          <StyledIcon src={drinkIcon} />
-          <StyledSelect>
-            <option value="1"> 0 </option>
-            <option value="2"> 2 </option>
-            <option value="3"> 3 </option>
-            <option value="4"> 4 </option>
-            <option value="4"> 5 </option>
-          </StyledSelect>
-        </div>
-        <div>
-          <StyledIcon src={foodIcon} />
-          <StyledSelect>
-            <option value="0"> 0 </option>
-            <option value="1"> 1 </option>
-            <option value="2"> 2 </option>
-            <option value="3"> 3 </option>
-            <option value="4"> 4 </option>
-            <option value="4"> 5 </option>
-          </StyledSelect>
-        </div>
-      </StyledFoodDrinkArea>
-      <StyledCheckinTitle>
-        <StyledLabel>Comments</StyledLabel> <p>145 chars</p>{" "}
+      {diet === "0" && (
+        <StyledFoodDrinkArea>
+          <StyledLabel>Drinks</StyledLabel>
+          <StyledLabel>Food</StyledLabel>
+          <div>
+            <StyledIcon src={drinkIcon} />
+            <StyledSelect name="drinkPenalty" ref={register}>
+              <option value="0"> 0 </option>
+              <option value="1"> 1 </option>
+              <option value="2"> 2 </option>
+              <option value="3"> 3 </option>
+              <option value="4"> 4 </option>
+              <option value="4"> 5 </option>
+            </StyledSelect>
+          </div>
+          <div>
+            <StyledIcon src={foodIcon} />
+            <StyledSelect name="dietPenalty" ref={register}>
+              <option value="0"> 0 </option>
+              <option value="1"> 1 </option>
+              <option value="2"> 2 </option>
+              <option value="3"> 3 </option>
+              <option value="4"> 4 </option>
+              <option value="4"> 5 </option>
+            </StyledSelect>
+          </div>
+        </StyledFoodDrinkArea>
+      )}
+
+      <StyledCheckinTitle  error={remainingCommentCount < 0}> 
+        <StyledLabel>Comments</StyledLabel> <p>{remainingCommentCount}</p>{" "}
       </StyledCheckinTitle>
-      <textarea id="w3mission" rows="4" cols="40"></textarea>
+      <textarea rows="4" cols="40" name="comment" ref={register}></textarea>
       <StyledHeading> Total: {total} points </StyledHeading>
       <Button text="CHECKIN"> </Button>
     </StyledForm>

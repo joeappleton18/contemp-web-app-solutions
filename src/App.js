@@ -83,7 +83,7 @@ function App() {
         <GlobalStyles />
         <div
           onClick={handleOuterWrapperClick}
-          style={{ width: "100vw", height: "100vh" }}
+          style={{ width: "100vw",  horizontalScroll: 'none', overflowX: 'hidden' , height: "100vh" }}
         >
           <Switch>
             <Route exact path="/">
