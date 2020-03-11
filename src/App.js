@@ -13,6 +13,11 @@ import Login from "./Views/Login";
 
 import useAuth from "./services/firebase/useAuth";
 
+import firebase from "firebase/app";   // the firbase core lib
+import 'firebase/auth'; // specific products
+import firebaseConfig from "./config/firebase";  // the firebase config we set up ealier
+
+
 const checkins = [
   {
     date: "Wed Jan 29 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
@@ -82,11 +87,18 @@ function Protected({ authenticated, children, ...rest }) {
 
 
 function App() {
+
+  if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, createEmailUser} = useAuth(firebase.auth());
 
-  debugger;
+ 
+
+
 
   const handleClick = e => {
     setMenuOpen(!menuOpen);
@@ -116,17 +128,17 @@ function App() {
               <Dash checkins={checkins} />
             </Protected>
             <Route path="/join">
-              <Join />
+              <Join createEmailUser={createEmailUser} />
             </Route>
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/profile">
+            <Protected authenticated={isAuthenticated}  path="/profile">
               <Profile />
-            </Route>
-            <Route path="/checkin">
+            </Protected>
+            <Protected authenticated={isAuthenticated} path="/checkin">
               <Checkin />
-            </Route>
+            </Protected>
           </Switch>
         </div>
       </ThemeProvider>
