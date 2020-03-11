@@ -10,6 +10,8 @@ import Join from "./Views/Join";
 import Checkin from "./Views/Checkin";
 import Profile from "./Views/Profile";
 
+import useAuth from "./services/firebase/useAuth";
+
 const checkins = [
   {
     date: "Wed Jan 29 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
@@ -60,6 +62,9 @@ const checkins = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const {isAuthenticated} = useAuth();
+
+  debugger;
 
   const handleClick = e => {
     setMenuOpen(!menuOpen);
