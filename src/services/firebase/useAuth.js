@@ -1,6 +1,11 @@
 import { useState} from "react";
-function useAuth() {
+function useAuth(fbAuth) {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
-   return {isAuthenticated, name: "joe"};
+   
+   const createEmailUser = (email, password) => fbAuth
+                .createUserWithEmailAndPassword(email, password);
+   
+   return {isAuthenticated, createEmailUser};
 }
 export default useAuth
+
