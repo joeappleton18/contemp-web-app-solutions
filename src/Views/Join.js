@@ -40,7 +40,14 @@ function Join(props) {
   const {createEmailUser} = props;
 
   const handleSubmit = async (data) => {
-    console.log(data);
+    
+    const {email, password} = data;
+
+    try {
+      await createEmailUser(email, password);
+    } catch (error) {
+      console.log(error);
+    }
     
   }
 
