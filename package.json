@@ -18,7 +18,8 @@
     "react-scripts": "^3.3.0",
     "react-social-icons": "^4.1.0",
     "reset-css": "^5.0.1",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.0",
+    "yup": "^0.28.1"
   },
   "scripts": {
     "start": "react-app-rewired start start",

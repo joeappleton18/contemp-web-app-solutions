@@ -9,6 +9,7 @@ import Dash from "./Views/Dash";
 import Join from "./Views/Join";
 import Checkin from "./Views/Checkin";
 import Profile from "./Views/Profile";
+import Login from "./Views/Login";
 
 import useAuth from "./services/firebase/useAuth";
 
@@ -87,7 +88,7 @@ function App() {
         <GlobalStyles />
         <div
           onClick={handleOuterWrapperClick}
-          style={{ width: "100vw", height: "100vh" }}
+          style={{ width: "100vw",  horizontalScroll: 'none', overflowX: 'hidden' , height: "100vh" }}
         >
           <Switch>
             <Route exact path="/">
@@ -95,6 +96,9 @@ function App() {
             </Route>
             <Route path="/join">
               <Join />
+            </Route>
+            <Route path="/login">
+              <Login />
             </Route>
             <Route path="/profile">
               <Profile />
