@@ -3,7 +3,7 @@ import theme from "./config/theme.js";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./config/GlobalStyles";
 import Header from "./Components/Header";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, Redirect } from "react-router-dom";
 
 import Dash from "./Views/Dash";
 import Join from "./Views/Join";
@@ -60,10 +60,31 @@ const checkins = [
   { date: "Wed Jan 15 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 20 }
 ];
 
+function Protected({ authenticated, children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        authenticated ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
+}
+
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
 
   debugger;
 
@@ -88,12 +109,12 @@ function App() {
         <GlobalStyles />
         <div
           onClick={handleOuterWrapperClick}
-          style={{ width: "100vw",  horizontalScroll: 'none', overflowX: 'hidden' , height: "100vh" }}
+          style={{ width: "100vw", horizontalScroll: 'none', overflowX: 'hidden', height: "100vh" }}
         >
           <Switch>
-            <Route exact path="/">
+            <Protected authenticated={isAuthenticated} exact path="/">
               <Dash checkins={checkins} />
-            </Route>
+            </Protected>
             <Route path="/join">
               <Join />
             </Route>
