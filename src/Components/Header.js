@@ -153,7 +153,7 @@ function Header(props) {
         <StyledUserAvatar>
           {/* <FontAwesomeIcon style={{ fontSize: "16px" }} icon={faChevronDown} /> */}
           <h6> {user.email}  <span style={{textDecoration: "underline", cursor:"pointer"}} onClick={handleSignOutClick}> (logout) </span></h6>
-          <img src={avatarPlaceholder} alt="avatar" />
+          <img src={user.photoURL || avatarPlaceholder} alt="avatar" />
         </StyledUserAvatar>
       </StyledWrapper>
     </div>

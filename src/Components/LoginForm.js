@@ -16,13 +16,16 @@ const StyledHeading = styled.h2`
   const StyledSocialIconArea = styled.div`
     display: flex;
     justify-content: space-around;
+    a: {
+      cursor: pointer;
+    }
   `;
 
 
 
 function LoginForm(props) {
   
-  const {buttonText, onSubmit, serverError} = props;
+  const {buttonText, onSubmit, serverError, onSocialLogin} = props;
   const [displayEmail, setDisplayEmail] = useState(false);
 
   const loginFormSchema = yup.object().shape({
@@ -42,13 +45,22 @@ function LoginForm(props) {
 
   const handleInnerSubmit = data => { onSubmit(data) }
   const errorBorder = error => error && ({borderColor: 'red'})
+  const handleSocialClick = provider => {
+    onSocialLogin(provider)
+  }
 
   return (
     <React.Fragment>
       <StyledSocialIconArea>
-        <SocialIcon network="facebook" />
-        <SocialIcon network="google" />
-        <SocialIcon network="twitter" />
+        <SocialIcon onClick={() => handleSocialClick("facebook")} network="facebook" />
+        <SocialIcon onClick={() => handleSocialClick("google")} network="google" />
+       { /*
+
+       I am currently awaiting for my twitter developer AIP access to be approved
+       
+       <SocialIcon onClick={() => handleSocialClick("twitter")} network="twitter" />
+       
+       */}
       </StyledSocialIconArea>
       <StyledHeading> OR </StyledHeading>
   
@@ -60,7 +72,7 @@ function LoginForm(props) {
          
           <form onSubmit={handleSubmit(handleInnerSubmit)}>
           <p>
-            <label> Email  {JSON.stringify(errors)} </label>
+            <label> Email   </label>
           </p>
           <p>
             <input type="text" name="email" style={errorBorder(errors.email)} ref={register}/>
@@ -88,12 +100,14 @@ function LoginForm(props) {
 LoginForm.propTypes = {
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
+  onSocialLogin: PropTypes.func.isRequired,
   error: PropTypes.string
 };
 
 LoginForm.defaultProps = {
   buttonText: "JOIN",
-  serverError: ''
+  serverError: '',
+  
 };
 
 export default LoginForm;

@@ -3,6 +3,7 @@ import theme from "./config/theme.js";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./config/GlobalStyles";
 import Header from "./Components/Header";
+import Loader from "./Components/Loader";
 import { Switch, Route, useLocation, Redirect } from "react-router-dom";
 
 import Dash from "./Views/Dash";
@@ -13,10 +14,9 @@ import Login from "./Views/Login";
 
 import useAuth from "./services/firebase/useAuth";
 
-import firebase from "firebase/app";   // the firbase core lib
-import 'firebase/auth'; // specific products
-import firebaseConfig from "./config/firebase";  // the firebase config we set up ealier
-
+import firebase from "firebase/app"; // the firbase core lib
+import "firebase/auth"; // specific products
+import firebaseConfig from "./config/firebase"; // the firebase config we set up ealier
 
 const checkins = [
   {
@@ -73,18 +73,17 @@ function Protected({ authenticated, children, ...rest }) {
         authenticated ? (
           children
         ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
       }
     />
   );
 }
-
 
 function RedirectToDash({ authenticated, children, ...rest }) {
   return (
@@ -94,32 +93,34 @@ function RedirectToDash({ authenticated, children, ...rest }) {
         !authenticated ? (
           children
         ) : (
-            <Redirect
-              to={{
-                pathname: "/",
-                state: { from: location }
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location }
+            }}
+          />
+        )
       }
     />
   );
 }
 
-
-
 function App() {
-
-
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
-  
 
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, createEmailUser, signInEmailUser, signOut, user} = useAuth(firebase.auth());
-
+  const {
+    isAuthenticated,
+    createEmailUser,
+    signInEmailUser,
+    signInWithProvider,
+    signOut,
+    user,
+    loading
+  } = useAuth(firebase.auth);
 
   const handleClick = e => {
     setMenuOpen(!menuOpen);
@@ -136,28 +137,60 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-
-        {(location.pathname !== "/join"  &&  location.pathname !== "/login") && (
-          <Header onClick={handleClick} signOut={signOut} user={user} open={menuOpen} />
+        {location.pathname !== "/join" && location.pathname !== "/login" && (
+          <Header
+            onClick={handleClick}
+            signOut={signOut}
+            user={user}
+            open={menuOpen}
+          />
         )}
         <GlobalStyles />
         <div
           onClick={handleOuterWrapperClick}
-          style={{ width: "100vw", horizontalScroll: 'none', overflowX: 'hidden', height: "100vh" }}
+          style={{
+            width: "100vw",
+            horizontalScroll: "none",
+            overflowX: "hidden",
+            height: "100vh"
+          }}
         >
-
-  
           <Switch>
             <Protected authenticated={isAuthenticated} exact path="/">
               <Dash checkins={checkins} />
             </Protected>
-            <RedirectToDash  authenticated={isAuthenticated}  path="/join">
-              <Join createEmailUser={createEmailUser} />
+            <RedirectToDash authenticated={isAuthenticated} path="/join">
+              
+            
+            {
+                /**
+                 * I have set up these loaders to handle the social sign-in redirect
+                 * which redirects back to the page you initiated it from
+                 * as such we only want to show the page after the redirect has authenticated
+                 */
+              } 
+
+              {loading ? <Loader /> : (
+                <Join
+                signInWithProvider={signInWithProvider}
+                createEmailUser={createEmailUser}
+              />
+
+              )}
+              
             </RedirectToDash>
-            <RedirectToDash  authenticated={isAuthenticated}  path="/login">
-              <Login   signInEmailUser={signInEmailUser} />
+            <RedirectToDash authenticated={isAuthenticated} path="/login">
+          
+
+              {loading ? <Loader /> : ( 
+                  <Login
+                  signInWithProvider={signInWithProvider}
+                  signInEmailUser={signInEmailUser}
+                />)
+              }
+             
             </RedirectToDash>
-            <Protected authenticated={isAuthenticated}  path="/profile">
+            <Protected authenticated={isAuthenticated} path="/profile">
               <Profile />
             </Protected>
             <Protected authenticated={isAuthenticated} path="/checkin">

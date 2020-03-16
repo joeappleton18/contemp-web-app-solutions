@@ -37,7 +37,7 @@ text-align: center;
 
 function Join(props) {
 
-  const {createEmailUser} = props;
+  const {createEmailUser, signInWithProvider} = props;
   const [error, setError] = useState();
   
 
@@ -53,12 +53,16 @@ function Join(props) {
     
   }
 
+  const handleSocialLogin = provider => {
+    signInWithProvider(provider);
+  }
+
   return (
     <StyledWrapper>
       <StyledTile>
         <StyledHeading>Get Started</StyledHeading>
         <StyledHeading>Join With </StyledHeading>
-        <Form onSubmit={handleSubmit} serverError={error} />
+        <Form onSocialLogin={handleSocialLogin} onSubmit={handleSubmit} serverError={error} />
         <StyledLink to="/login"> Already a member - Login </StyledLink>
       </StyledTile>
     </StyledWrapper>
@@ -66,7 +70,9 @@ function Join(props) {
 }
 
 Join.propTypes = {
-  createEmailUser: PropTypes.func.isRequired
+  createEmailUser: PropTypes.func.isRequired,
+  signInWithProvider: PropTypes.func.isRequired
+
 };
 
 export default Join;
