@@ -86,18 +86,39 @@ function Protected({ authenticated, children, ...rest }) {
 }
 
 
+function RedirectToDash({ authenticated, children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        !authenticated ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
+}
+
+
+
 function App() {
+
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
+  
 
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, createEmailUser} = useAuth(firebase.auth());
-
- 
-
+  const { isAuthenticated, createEmailUser, signInEmailUser, signOut, user} = useAuth(firebase.auth());
 
 
   const handleClick = e => {
@@ -115,24 +136,27 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        {location.pathname !== "/join" && (
-          <Header onClick={handleClick} open={menuOpen} />
+
+        {(location.pathname !== "/join"  &&  location.pathname !== "/login") && (
+          <Header onClick={handleClick} signOut={signOut} user={user} open={menuOpen} />
         )}
         <GlobalStyles />
         <div
           onClick={handleOuterWrapperClick}
           style={{ width: "100vw", horizontalScroll: 'none', overflowX: 'hidden', height: "100vh" }}
         >
+
+  
           <Switch>
             <Protected authenticated={isAuthenticated} exact path="/">
               <Dash checkins={checkins} />
             </Protected>
-            <Route path="/join">
+            <RedirectToDash  authenticated={isAuthenticated}  path="/join">
               <Join createEmailUser={createEmailUser} />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
+            </RedirectToDash>
+            <RedirectToDash  authenticated={isAuthenticated}  path="/login">
+              <Login   signInEmailUser={signInEmailUser} />
+            </RedirectToDash>
             <Protected authenticated={isAuthenticated}  path="/profile">
               <Profile />
             </Protected>

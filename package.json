@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "firebase": "^7.10.0",
+    "firebase-tools": "^7.15.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hook-form": "^4.9.8",
@@ -26,7 +27,8 @@
     "start": "react-app-rewired start start",
     "build": "react-app-rewired start build",
     "test": "react-app-rewired start test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "firbase": "firebase"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import Tile from "../Components/Tile";
@@ -38,15 +38,17 @@ text-align: center;
 function Join(props) {
 
   const {createEmailUser} = props;
+  const [error, setError] = useState();
+  
 
   const handleSubmit = async (data) => {
     
     const {email, password} = data;
-
+    
     try {
       await createEmailUser(email, password);
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
     
   }
@@ -56,7 +58,7 @@ function Join(props) {
       <StyledTile>
         <StyledHeading>Get Started</StyledHeading>
         <StyledHeading>Join With </StyledHeading>
-        <Form onSubmit={handleSubmit} />
+        <Form onSubmit={handleSubmit} serverError={error} />
         <StyledLink to="/login"> Already a member - Login </StyledLink>
       </StyledTile>
     </StyledWrapper>

@@ -22,7 +22,7 @@ const StyledHeading = styled.h2`
 
 function LoginForm(props) {
   
-  const {buttonText, onSubmit} = props;
+  const {buttonText, onSubmit, serverError} = props;
   const [displayEmail, setDisplayEmail] = useState(false);
 
   const loginFormSchema = yup.object().shape({
@@ -34,8 +34,6 @@ function LoginForm(props) {
   const { register, handleSubmit,  errors } = useForm({validationSchema:loginFormSchema});
   
 
-
-
   const handleClick = e => {
     e.preventDefault();
     setDisplayEmail(!displayEmail);
@@ -43,7 +41,6 @@ function LoginForm(props) {
   }
 
   const handleInnerSubmit = data => { onSubmit(data) }
-
   const errorBorder = error => error && ({borderColor: 'red'})
 
   return (
@@ -60,13 +57,15 @@ function LoginForm(props) {
        
 
        {displayEmail && (
+         
           <form onSubmit={handleSubmit(handleInnerSubmit)}>
           <p>
-            <label> Email </label>
+            <label> Email  {JSON.stringify(errors)} </label>
           </p>
           <p>
             <input type="text" name="email" style={errorBorder(errors.email)} ref={register}/>
             <ErrorLabel> {errors.email && errors.email.message} </ErrorLabel>
+         
           </p>
           
             <label> Password </label>
@@ -75,7 +74,10 @@ function LoginForm(props) {
             <input type="password" name="password" ref={register} style={errorBorder(errors.password)} />
             <ErrorLabel> {errors.password && errors.password.message} </ErrorLabel>
           </p>
+         
           <Button  text={buttonText} />  
+          <ErrorLabel>{serverError}  </ErrorLabel>
+         
         </form>
        )}
       
@@ -85,11 +87,13 @@ function LoginForm(props) {
 
 LoginForm.propTypes = {
   buttonText: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string
 };
 
 LoginForm.defaultProps = {
-  buttonText: "JOIN"
+  buttonText: "JOIN",
+  serverError: ''
 };
 
 export default LoginForm;
