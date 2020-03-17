@@ -15,4 +15,4 @@ Enable Email & Google authentication, this is quick and easy and involves no ext
 
 ## Facebook authentication
 
-To enable Facebook authentication you need to set up an external Facebook application. [I have provided a video on how to do this](https://www.youtube.com/watch?v=9ztk1hKmcI0&t=17s), as the documentation on how to do this seemed patchy.
+To enable Facebook authentication you need to set up an external Facebook application. [I have provided a video on how to do this](https://www.youtube.com/watch?v=9ztk1hKmcI0&t=17s), as the gogle documentation seemed patchy.
