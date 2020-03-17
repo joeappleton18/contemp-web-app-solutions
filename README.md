@@ -7,7 +7,7 @@
 
 ## Setting up authentication 
 
-For this application to work you will need to ensure an authentication method. Click authentication from within your application.
+For this application to work you will need to ensure, one or more, authentication methods are set up. Click authentication from within your firebase application dash.
 
 ## Email & Google 
 
