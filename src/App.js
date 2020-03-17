@@ -13,7 +13,6 @@ import Profile from "./Views/Profile";
 import Login from "./Views/Login";
 
 import useAuth from "./services/firebase/useAuth";
-
 import firebase from "firebase/app"; // the firbase core lib
 import "firebase/auth"; // specific products
 import firebaseConfig from "./config/firebase"; // the firebase config we set up ealier
@@ -65,7 +64,13 @@ const checkins = [
   { date: "Wed Jan 15 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 20 }
 ];
 
+ 
+let initAttemptedRoute = "/"
+
 function Protected({ authenticated, children, ...rest }) {
+
+  initAttemptedRoute  = useLocation().pathname;
+
   return (
     <Route
       {...rest}
@@ -95,7 +100,7 @@ function RedirectToDash({ authenticated, children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/",
+              pathname: initAttemptedRoute,
               state: { from: location }
             }}
           />

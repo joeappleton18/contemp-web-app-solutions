@@ -11,3 +11,23 @@
 
 ## Setting up our database 
 
+- Creating a database is simple. In your firebase project, select Database from the, left-hand-side, develop menu section
+
+- Next, click the `Create database`
+
+- We want to start off in test mode, so select this option
+
+
+:::tip 
+
+## Task 1 - Setting up a database
+
+Follow the steps above to set up your database
+
+:::
+
+
+## Choose a data structure
+
+- First let's consider what the data structure should look-like for the check-in form 
+- Navigate to your app's checkin form using the side menu
