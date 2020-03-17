@@ -56,6 +56,10 @@ function Menu(props) {
             {" "}
             <Link to="/profile"> Profile </Link>{" "}
           </StyledLi>
+          <StyledLi active={location.pathname === "/checkin"}>
+            {" "}
+            <Link to="/checkin"> Checkin </Link>{" "}
+          </StyledLi>
         </ul>
       </StyledNav>
     </div>

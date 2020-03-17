@@ -134,7 +134,14 @@ function App() {
     setMenuOpen(false);
   }, [location]);
 
+  if (loading ) {
+    return  <Loader />;
+  } 
+ 
+  
   return (
+
+    
     <div>
       <ThemeProvider theme={theme}>
         {location.pathname !== "/join" && location.pathname !== "/login" && (
@@ -170,28 +177,25 @@ function App() {
                  */
               } 
 
-              {loading ? <Loader /> : (
                 <Join
                 signInWithProvider={signInWithProvider}
                 createEmailUser={createEmailUser}
               />
 
-              )}
+          
               
             </RedirectToDash>
             <RedirectToDash authenticated={isAuthenticated} path="/login">
-          
-
-              {loading ? <Loader /> : ( 
+        
+      
                   <Login
                   signInWithProvider={signInWithProvider}
                   signInEmailUser={signInEmailUser}
-                />)
-              }
+                />
              
             </RedirectToDash>
             <Protected authenticated={isAuthenticated} path="/profile">
-              <Profile />
+              <Profile  user={user} />
             </Protected>
             <Protected authenticated={isAuthenticated} path="/checkin">
               <Checkin />
