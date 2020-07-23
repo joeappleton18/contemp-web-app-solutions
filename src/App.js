@@ -5,7 +5,6 @@ import GlobalStyles from "./config/GlobalStyles";
 import Header from "./Components/Header";
 import Loader from "./Components/Loader";
 import { Switch, Route, useLocation, Redirect } from "react-router-dom";
-
 import Dash from "./Views/Dash";
 import Join from "./Views/Join";
 import Checkin from "./Views/Checkin";
@@ -13,8 +12,12 @@ import Profile from "./Views/Profile";
 import Login from "./Views/Login";
 
 import useAuth from "./services/firebase/useAuth";
+import useCheckin from "./services/firebase/useCheckin"
 import firebase from "firebase/app"; // the firbase core lib
 import "firebase/auth"; // specific products
+import "firebase/firestore";
+
+
 import firebaseConfig from "./config/firebase"; // the firebase config we set up ealier
 
 const checkins = [
@@ -127,7 +130,16 @@ function App() {
     loading
   } = useAuth(firebase.auth);
 
-  const handleClick = e => {
+  const {
+    createCheckin,
+    readCheckins
+  } = useCheckin(firebase.firestore)
+
+
+
+  const handleClick =  e => {
+
+
     setMenuOpen(!menuOpen);
   };
 
@@ -169,7 +181,7 @@ function App() {
         >
           <Switch>
             <Protected authenticated={isAuthenticated} exact path="/">
-              <Dash checkins={checkins} />
+              <Dash readCheckins={readCheckins}  checkins={checkins} />
             </Protected>
             <RedirectToDash authenticated={isAuthenticated} path="/join">
               
@@ -191,19 +203,16 @@ function App() {
               
             </RedirectToDash>
             <RedirectToDash authenticated={isAuthenticated} path="/login">
-        
-      
                   <Login
                   signInWithProvider={signInWithProvider}
                   signInEmailUser={signInEmailUser}
                 />
-             
             </RedirectToDash>
             <Protected authenticated={isAuthenticated} path="/profile">
               <Profile  user={user} />
             </Protected>
             <Protected authenticated={isAuthenticated} path="/checkin">
-              <Checkin />
+              <Checkin  createCheckin={createCheckin}  user={user} />
             </Protected>
           </Switch>
         </div>
