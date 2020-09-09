@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 function Button(props) {
 
-  const {onClick, text} = props;
+  const {onClick, text, ...args} = props;
     
   const StyledButton = styled.button`
     height: 44.63px;
@@ -21,7 +21,7 @@ function Button(props) {
   `;
 
   return(  
-    <StyledButton onClick={onClick}> {text} </StyledButton>
+    <StyledButton onClick={onClick} {...args}> {text} </StyledButton>
   )
 }
 

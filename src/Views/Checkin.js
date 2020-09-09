@@ -1,19 +1,21 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Tile from "../Components/Tile";
-import styled from 'styled-components';
+import styled from "styled-components";
 import CheckinForm from "../Components/CheckinForm";
-import firebase from "firebase";
-
+import CheckedIn from "../Components/CheckedIn";
+import thumbsUp from "../assets/thumbs-up.svg";
+import { useHistory } from "react-router-dom";
 
 const StyledCheckedIn = styled.div`
   width: 100vw;
-  height: 110vh;
-  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
+  height: 100vh;
+  background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  overflow-x: hidden;
 `;
 
 const StyledTile = styled(Tile)`
@@ -30,34 +32,49 @@ const StyledHeading = styled.h4`
   color: ${({ theme }) => theme.colors.purple};
 `;
 
+const StyledThumbsUp = styled.div`
+  background: url(${thumbsUp}) no-repeat left top;
+  width: 150px;
+  height: 150px;
+`;
 
+const Checkin = (props) => {
+  const { user, createCheckin } = props;
+  const [checkedIn, setCheckedIn] = useState(false);
+  let history = useHistory();
 
-const Checkin = props => {
- 
-  const  {user, createCheckin} = props;
-  const [checkedIn, setCheckedIn]= useState(true);
- 
-  const handleSubmit =  async checkin => {
-    const  ckin = {...checkin, ...{photo: user.photoURL, userId: user.uid, userName: user.displayName || user.email, time: new Date()}}
-     await createCheckin(ckin);
-  }
+  const handleSubmit = async (checkin) => {
+    setCheckedIn(true);
+    const ckin = {
+      ...checkin,
+      ...{
+        photo: user.photoURL,
+        userId: user.uid,
+        userName: user.displayName || user.email,
+        time: new Date(),
+      },
+    };
+    await createCheckin(ckin);
+    setTimeout(() => history.push('/'), 3000);
+  };
 
   return (
     <React.Fragment>
-    {
-    !checkedIn ? (  
-    <StyledTile>
-      <StyledHeading> Log Your Progress For May 18 </StyledHeading>
-      <CheckinForm onSubmit={handleSubmit}/>
-    </StyledTile>) : <StyledCheckedIn />
-    }
+      {!checkedIn ? (
+        <StyledTile>
+          <StyledHeading> Log Your Progress For May 18 </StyledHeading>
+          <CheckinForm onSubmit={handleSubmit} />
+        </StyledTile>
+      ) : (
+        <CheckedIn />
+      )}
     </React.Fragment>
   );
 };
 
 Checkin.propTypes = {
   user: PropTypes.object.isRequired,
-  createCheckin: PropTypes.func.isRequired
+  createCheckin: PropTypes.func.isRequired,
 };
 
 export default Checkin;

@@ -16,9 +16,9 @@ import useCheckin from "./services/firebase/useCheckin"
 import firebase from "firebase/app"; // the firbase core lib
 import "firebase/auth"; // specific products
 import "firebase/firestore";
-
-
 import firebaseConfig from "./config/firebase"; // the firebase config we set up ealier
+
+
 
 const checkins = [
   {
@@ -137,9 +137,7 @@ function App() {
 
 
 
-  const handleClick =  e => {
-
-
+  const handleClick =  async e => {
     setMenuOpen(!menuOpen);
   };
 
@@ -158,8 +156,7 @@ function App() {
   
   return (
 
-    
-    <div>
+    <div style={{overflowX: 'hidden'}}>
       <ThemeProvider theme={theme}>
         {location.pathname !== "/join" && location.pathname !== "/login" && (
           <Header

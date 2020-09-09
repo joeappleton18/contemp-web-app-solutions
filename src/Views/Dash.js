@@ -13,6 +13,7 @@ function Dash(props) {
   useEffect(() => {
 
     const getAllCheckins =  async () => {
+      console.log(process.env.NODE_ENV);
       const aCheckins =  await readCheckins();
       let checkins = [];
       aCheckins.forEach(c => checkins.push(c.data()));

@@ -229,7 +229,7 @@ const CheckinForm = props => {
       </StyledCheckinTitle>
       <textarea rows="4" cols="40" name="comment" ref={register}></textarea>
       <StyledHeading> Total: {total} points </StyledHeading>
-      <Button text="CHECKIN"> </Button>
+      <Button text="CHECKIN" type="submit"> </Button>
     </StyledForm>
   );
 };

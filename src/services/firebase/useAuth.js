@@ -13,6 +13,7 @@ function useAuth(fbAuth) {
     setLoading(false);
     if (fbUser) {
       setIsAuthenticated(true);
+      debugger;
       setUser(fbUser);
       return;
     }

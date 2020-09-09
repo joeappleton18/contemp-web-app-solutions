@@ -32,7 +32,7 @@
     "build": "react-app-rewired start build",
     "test": "react-app-rewired start test",
     "eject": "react-scripts eject",
-    "firbase": "firebase"
+    "firbase": "cross-env firebase"
   },
   "eslintConfig": {
     "extends": "react-app"

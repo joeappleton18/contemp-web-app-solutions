@@ -108,7 +108,7 @@ function CheckinComment(props) {
             {" "}
             {checkin.userName} <StyledSpan> Checked In </StyledSpan>
           </h6>
-          <em> {moment(checkin.time).fromNow()} </em> <h6>{checkin.comment}</h6>
+          <em> {moment(checkin.time.toDate()).fromNow()} </em> <h6>{checkin.comment}</h6>
           <h6> Total</h6>
           <StyledScoreArea>
             {" "}

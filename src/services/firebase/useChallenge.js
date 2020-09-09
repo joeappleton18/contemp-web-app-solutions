@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-function useCheckin(fStore) {
+function useAuth(fStore) {
   const ref = fStore().collection('checkins');
 
   const createCheckin  = checkin => ref.add(checkin);
@@ -12,4 +12,4 @@ function useCheckin(fStore) {
   return {createCheckin, readCheckins}
 
 }
-export default useCheckin;
+export default useAuth;
