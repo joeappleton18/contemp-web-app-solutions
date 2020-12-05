@@ -1,6 +1,9 @@
 {
   "name": "web-dev-industry-practical",
   "version": "0.1.0",
+  "engines": {
+    "node": "10"
+  },
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
@@ -12,10 +15,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "cors": "^2.8.5",
+    "dayjs": "^1.9.6",
     "express": "^4.17.1",
     "firebase": "^7.10.0",
     "firebase-tools": "^7.15.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hook-form": "^4.9.8",

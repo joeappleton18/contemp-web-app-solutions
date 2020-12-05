@@ -11,6 +11,7 @@ import Checkin from "./Views/Checkin";
 import Profile from "./Views/Profile";
 import Login from "./Views/Login";
 
+import useChallenge from "./services/firebase/useChallenge";
 import useAuth from "./services/firebase/useAuth";
 import useCheckin from "./services/firebase/useCheckin"
 import firebase from "firebase/app"; // the firbase core lib
@@ -20,52 +21,7 @@ import firebaseConfig from "./config/firebase"; // the firebase config we set up
 
 
 
-const checkins = [
-  {
-    date: "Wed Jan 29 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 20
-  },
-  {
-    date: "Wed Jan 28 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 15
-  },
-  { date: "Wed Jan 27 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 8 },
-  { date: "Wed Jan 26 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 2 },
-  {
-    date: "Wed Jan 25 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 20
-  },
-  {
-    date: "Wed Jan 23 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 12
-  },
-  {
-    date: "Wed Jan 22 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 19
-  },
-  {
-    date: "Wed Jan 21 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 10
-  },
-  {
-    date: "Wed Jan 20 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 15
-  },
-  { date: "Wed Jan 19 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 6 },
-  {
-    date: "Wed Jan 18 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 20
-  },
-  {
-    date: "Wed Jan 17 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 20
-  },
-  {
-    date: "Wed Jan 16 2020 07:17:11 GMT+0000 (Greenwich Mean Time)",
-    score: 20
-  },
-  { date: "Wed Jan 15 2020 07:17:11 GMT+0000 (Greenwich Mean Time)", score: 20 }
-];
+
 
  
 let initAttemptedRoute = "/"
@@ -135,6 +91,9 @@ function App() {
     readCheckins
   } = useCheckin(firebase.firestore)
 
+  const {
+    readChallenges 
+  } = useChallenge(firebase.firestore);
 
 
   const handleClick =  async e => {
@@ -178,7 +137,7 @@ function App() {
         >
           <Switch>
             <Protected authenticated={isAuthenticated} exact path="/">
-              <Dash readCheckins={readCheckins}  checkins={checkins} />
+              <Dash readCheckins={readCheckins} readChallenges={readChallenges} />
             </Protected>
             <RedirectToDash authenticated={isAuthenticated} path="/join">
               

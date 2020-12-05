@@ -1,12 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyCMGo047vS1Lx5sFGDZWtW4_uqiUfMz3LQ",
-    authDomain: "web-dev-practical.firebaseapp.com",
-    databaseURL: "https://web-dev-practical.firebaseio.com",
-    projectId: "web-dev-practical",
-    storageBucket: "web-dev-practical.appspot.com",
-    messagingSenderId: "1030945380946",
-    appId: "1:1030945380946:web:ae1bca104338f617df9d8b",
-    measurementId: "G-321SW2SPSG"
+    apiKey: "AIzaSyDIaDCr2LcFa-aElRRKOPE81qvUSae3Dws",
+    authDomain: "web-dev-2020.firebaseapp.com",
+    databaseURL: "https://web-dev-2020.firebaseio.com",
+    projectId: "web-dev-2020",
+    storageBucket: "web-dev-2020.appspot.com",
+    messagingSenderId: "524267669677",
+    appId: "1:524267669677:web:56b90ce7420a5d24805e24"
   };
 
 

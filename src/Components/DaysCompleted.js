@@ -6,7 +6,7 @@ import ProgressBar from "./ProgressBar";
 import styled from "styled-components";
 
 function DaysCompleted(props) {
-  const { days, checkins } = props;
+  const { days, checkins, percentageComplete } = props;
 
   const StyledDaysCompleteHeading = styled.h2`
     text-align: center;
@@ -29,9 +29,9 @@ function DaysCompleted(props) {
       <StyledRootDiv>
         <StyledDaysCompleteHeading> {days} Days Completed! </StyledDaysCompleteHeading>
         <Histogram barCount={7} bars={checkins.map(c => c.score * 5)} />
-        <ProgressBar percentage={50} />
+        <ProgressBar percentage={percentageComplete} />
         <StyledGoalHeading>
-          <strong>50%</strong> TO GOAL!
+          <strong>{percentageComplete}%</strong> TO GOAL!
         </StyledGoalHeading>
       </StyledRootDiv>
     </Tile>
