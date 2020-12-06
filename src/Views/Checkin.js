@@ -75,6 +75,7 @@ const Checkin = (props) => {
 Checkin.propTypes = {
   user: PropTypes.object.isRequired,
   createCheckin: PropTypes.func.isRequired,
+
 };
 
 export default Checkin;

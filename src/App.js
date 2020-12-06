@@ -75,6 +75,7 @@ function App() {
   }
 
   const [menuOpen, setMenuOpen] = useState(false);
+
   const location = useLocation();
   const {
     isAuthenticated,
@@ -88,7 +89,9 @@ function App() {
 
   const {
     createCheckin,
-    readCheckins
+    readCheckins,
+    readComments,
+    createComment,
   } = useCheckin(firebase.firestore)
 
   const {
@@ -137,7 +140,7 @@ function App() {
         >
           <Switch>
             <Protected authenticated={isAuthenticated} exact path="/">
-              <Dash readCheckins={readCheckins} readChallenges={readChallenges} />
+              <Dash user={user} readComments={readComments} createComment={createComment} readCheckins={readCheckins} readChallenges={readChallenges} />
             </Protected>
             <RedirectToDash authenticated={isAuthenticated} path="/join">
               

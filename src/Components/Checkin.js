@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import avatarPlaceHolder from "../assets/avatar_placeholder.png"
 import moment from "moment";
 import PropTypes from "prop-types";
 import Tile from "./Tile";
 import styled from "styled-components";
-import avatarLarge from "../assets/avatar_large.png";
 import avatarSmall from "../assets/avatar_small.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -33,7 +33,7 @@ function LikeButton(props) {
 const StyledDetailsArea = styled.div`
     display: grid;
     grid-template-columns: 0.2fr 3fr;
-    align-items: center;
+    
     textarea {
         border-radius: 4px;
         border: 1px solid ${({ theme }) => theme.colors.darkShade[25]};
@@ -49,6 +49,7 @@ const StyledDetailsArea = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justifyContent: 'flex-start',
   `;
 
   const StyledCheckinArea = styled.div`
@@ -87,17 +88,47 @@ const StyledDetailsArea = styled.div`
    
   `;
 
-function CheckinComment(props) {
+function Checkin(props) {
   
- const {checkin} = props;
+ const {checkin,  userProfilePicture, user, onComment, readComments} = props;
+ const [comment, setComment]= useState("");
+ const [comments, setComments]= useState([]);
+
+ const readAllComment = async () => {
+  const commentsRef =  await readComments(checkin.id);
+  const comments = [];
+  commentsRef.forEach(c => {comments.push(c.data())});
+   setComments(comments);
+ }
+ useEffect(() => {
+   readAllComment();
+ }, [])
+
+ const handleKeyPress = (e) => { 
+    
+    if(e.key === 'Enter' && comment) {
+      const commentRecord =   {
+        photo: user.photoURL || avatarPlaceHolder,
+        userId: user.uid,
+        userName: user.displayName || user.email,
+        message: comment,
+        time: new Date(),
+      }
+      onComment(checkin.id, commentRecord);
+      setComment("");
+      // refresh comments
+      readAllComment();
+    }
+
+ }
 
   return (
     <Tile elevation="0.06">
       <StyledDetailsArea>
         <StyledPhotoArea>
           <img
-            src={avatarLarge}
-            style={{ marginBottom: "-20px" }}
+            src={checkin.photo}
+            style={{  marginBottom: 10, marginRight: 10, width: "50px", height: "50px",     borderRadius: '50%'  }}
             alt="avatar"
           />
           <LikeButton></LikeButton>
@@ -105,7 +136,6 @@ function CheckinComment(props) {
 
         <StyledCheckinArea>
           <h6>
-            {" "}
             {checkin.userName} <StyledSpan> Checked In </StyledSpan>
           </h6>
           <em> {moment(checkin.time.toDate()).fromNow()} </em> <h6>{checkin.comment}</h6>
@@ -120,32 +150,41 @@ function CheckinComment(props) {
         </StyledCheckinArea>
       </StyledDetailsArea>
       <StyledDivider />
-
-      <StyledDetailsArea>
+       
+     {
+       comments.map((c, i) => (<StyledDetailsArea>
         <img
-          src={avatarSmall}
-          style={{ marginBottom: "-20px" }}
+          src={c.photo}
+          style={{  marginBottom: 10, marginRight: 10, width: "50px", height: "50px",     borderRadius: '50%'}}
           alt="avatar"
         />
 
         <CommentArea>
+                  
           <h6>
-            Joe Appleton <em> 2 hours ago </em>
+            {c.userName} <em>  {moment(c.time.toDate()).fromNow()} </em>
           </h6>
 
-        <h6> {checkin.commet}</h6>
+        <h6> {c.message}</h6>
         </CommentArea>
-      </StyledDetailsArea>
+      </StyledDetailsArea>)) 
+     }
+
+
+      
 
       <StyledDetailsArea>
         <img
-          src={avatarSmall}
-          style={{ marginBottom: "-20px" }}
+          src={userProfilePicture}
+          style={{  marginBottom: 10, marginRight: 10, width: "50px", height: "50px",     borderRadius: '50%'}}
           alt="avatar"
         />
 
-        <textarea rows="4"> 
-
+        <textarea rows="4" 
+                  onChange={e => setComment(e.target.value)} 
+                  onKeyPress={handleKeyPress}
+                  value={comment}
+        > 
 
         </textarea>
        
@@ -156,10 +195,13 @@ function CheckinComment(props) {
   );
 }
 
-CheckinComment.propTypes = {
-
-  checkin: PropTypes.object.isRequired
-
+Checkin.propTypes = {
+  checkin: PropTypes.object.isRequired,
+  onComment: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  
 };
 
-export default CheckinComment;
+
+
+export default Checkin;

@@ -1,25 +1,30 @@
 import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import DaysCompleted from "../Components/DaysCompleted";
-import CheckinComment from "../Components/CheckinComment";
+import Checkin from "../Components/Checkin";
+import avatarPlaceHolder from "../assets/avatar_placeholder.png"
 import * as dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 
 
 function Dash(props) {
 
-  const {checkins, readCheckins,readChallenges} = props;
-  
+  const { user, readCheckins,readChallenges, createComment, readComments} = props;
   const [allCheckins, setAllCheckins] = useState([]);
   const [daysComplete, setDaysComplete] = useState(0);
   const [percentageComplete, setPercentageComplete] = useState(0);
  
+   const handleComment = async (checkinId, comment) => {
+    
+    await createComment(checkinId, comment);
+
+   }
+
   useEffect(() => {
 
     const getAllCheckins =  async () => {
       const aCheckins =  await readCheckins();
       let checkins = [];
-      aCheckins.forEach(c => checkins.push(c.data()));
+      aCheckins.forEach(c => checkins.push({...c.data(),...{id:c.id} }));
       setAllCheckins(checkins)
     }
 
@@ -47,20 +52,16 @@ function Dash(props) {
   
   }, [])
 
- 
-
 
 
   return (
     <div>
-      
-
-      <DaysCompleted days={daysComplete} percentageComplete={percentageComplete}  checkins={[]}>
-        {" "}
-      </DaysCompleted>
+    
+      <DaysCompleted days={daysComplete} percentageComplete={percentageComplete}  checkins={allCheckins.filter(c => c.userId === user.uid)}/>
+     
       
       {
-        allCheckins.map( (c) => <CheckinComment  checkin={c}/>)
+        allCheckins.map( (c) => <Checkin onComment={handleComment} userProfilePicture={user.photoURL || avatarPlaceHolder}  user={user} checkin={c} readComments={readComments} />)
       }
       
 
